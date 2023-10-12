@@ -4,6 +4,7 @@ import {
   delete_todo,
   get_todo,
   update_todo,
+  update_todo_status,
 } from "../controllers/todo.js";
 
 const route = express.Router();
@@ -44,6 +45,17 @@ route.delete("/delete_todo", (req, res) => {
 route.patch("/update_todo", (req, res) => {
   const data = req.body;
   update_todo(data, (err, result) => {
+    if (err) {
+      return res.status(err.status).send(err);
+    } else {
+      return res.status(result.status).send(result);
+    }
+  });
+});
+
+route.patch("/update_todo_status", (req, res) => {
+  const data = req.body;
+  update_todo_status(data, (err, result) => {
     if (err) {
       return res.status(err.status).send(err);
     } else {
