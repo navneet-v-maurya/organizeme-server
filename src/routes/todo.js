@@ -1,4 +1,5 @@
 import express from "express";
+import authenticator from "../../utils/authenticator.js";
 import {
   add_todo,
   delete_todo,
@@ -9,7 +10,7 @@ import {
 
 const route = express.Router();
 
-route.post("/add_todo", (req, res) => {
+route.post("/add_todo", authenticator, (req, res) => {
   const data = req.body;
   add_todo(data, (err, result) => {
     if (err) {
@@ -20,7 +21,7 @@ route.post("/add_todo", (req, res) => {
   });
 });
 
-route.get("/get_todo", (req, res) => {
+route.get("/get_todo", authenticator, (req, res) => {
   const data = req.query;
   get_todo(data, (err, result) => {
     if (err) {
@@ -31,7 +32,7 @@ route.get("/get_todo", (req, res) => {
   });
 });
 
-route.delete("/delete_todo", (req, res) => {
+route.delete("/delete_todo", authenticator, (req, res) => {
   const data = req.query;
   delete_todo(data, (err, result) => {
     if (err) {
@@ -42,7 +43,7 @@ route.delete("/delete_todo", (req, res) => {
   });
 });
 
-route.patch("/update_todo", (req, res) => {
+route.patch("/update_todo", authenticator, (req, res) => {
   const data = req.body;
   update_todo(data, (err, result) => {
     if (err) {
@@ -53,7 +54,7 @@ route.patch("/update_todo", (req, res) => {
   });
 });
 
-route.patch("/update_todo_status", (req, res) => {
+route.patch("/update_todo_status", authenticator, (req, res) => {
   const data = req.body;
   update_todo_status(data, (err, result) => {
     if (err) {

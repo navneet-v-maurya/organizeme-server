@@ -6,6 +6,10 @@ import responseStructure from "../../utils/responseStructure.js";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+} from "../../utils/webTokens.js";
 
 dotenv.config();
 
@@ -93,6 +97,9 @@ export const register_user = async (data, cb) => {
       Otp.findByIdAndDelete({ _id: found_otp._id }),
     ]);
 
+    const accessToken = generateAccessToken(result);
+    const refreshToken = generateRefreshToken(result);
+
     const { password, ...rest } = result._doc;
 
     return cb(
@@ -101,7 +108,7 @@ export const register_user = async (data, cb) => {
         .merge({
           status: 200,
           success: true,
-          data: rest,
+          data: { rest, refreshToken, accessToken },
           message: "ok",
         })
         .toJS()
@@ -134,6 +141,9 @@ export const login_user = async (data, cb) => {
 
     if (!pass_matched) throw new Error("Wrong password");
 
+    const accessToken = generateAccessToken(found_user);
+    const refreshToken = generateRefreshToken(found_user);
+
     const { password, ...rest } = found_user._doc;
 
     return cb(
@@ -142,7 +152,7 @@ export const login_user = async (data, cb) => {
         .merge({
           status: 200,
           success: true,
-          data: rest,
+          data: { rest, refreshToken, accessToken },
           message: "ok",
         })
         .toJS()
