@@ -2,19 +2,20 @@ import mongoose from "mongoose";
 
 const schema = new mongoose.Schema(
   {
-    user_id: { type: String, required: true },
+    created_by: { type: mongoose.Schema.Types.ObjectId, required: true },
+    created_for: [{ type: mongoose.Schema.Types.ObjectId }],
     todo: { type: String, required: true },
     details: { type: String },
-    is_active: { type: Boolean, default: false },
-    is_done: { type: Boolean, default: false },
+    status: {
+      type: String,
+      enum: ["created", "in-progress", "completed"],
+    },
     start: { type: Date, required: true },
     end: { type: Date, required: true },
-    created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now },
   },
-  { strict: true }
+  { timestamps: true }
 );
 
-const todo = mongoose.model("todo", schema);
+const Todo = mongoose.model("todo", schema);
 
-export default todo;
+export default Todo;
