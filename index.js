@@ -7,6 +7,7 @@ dotenv.config();
 
 import connectMongoDB from "./src/database/mongo.js";
 import todo from "./src/routes/todo.js";
+import auth from "./src/routes/auth.js";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: false, limit: "50mb" }));
 
 app.use("/todo", todo);
+app.use("/auth", auth);
 
 connectMongoDB();
 app.listen(process.env.PORT, () => {
