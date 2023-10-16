@@ -9,6 +9,7 @@ const schema = new mongoose.Schema(
     status: {
       type: String,
       enum: ["created", "in-progress", "completed"],
+      default: "created",
     },
     start: { type: Date, required: true },
     end: { type: Date, required: true },
