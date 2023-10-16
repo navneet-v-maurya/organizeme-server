@@ -5,13 +5,13 @@ import {
   delete_todo,
   get_todo,
   update_todo,
-  update_todo_status,
 } from "../controllers/todo.js";
 
 const route = express.Router();
 
 route.post("/add_todo", authenticator, (req, res) => {
   const data = req.body;
+  data.user = req.user;
   add_todo(data, (err, result) => {
     if (err) {
       return res.status(err.status).send(err);
@@ -46,17 +46,6 @@ route.delete("/delete_todo", authenticator, (req, res) => {
 route.patch("/update_todo", authenticator, (req, res) => {
   const data = req.body;
   update_todo(data, (err, result) => {
-    if (err) {
-      return res.status(err.status).send(err);
-    } else {
-      return res.status(result.status).send(result);
-    }
-  });
-});
-
-route.patch("/update_todo_status", authenticator, (req, res) => {
-  const data = req.body;
-  update_todo_status(data, (err, result) => {
     if (err) {
       return res.status(err.status).send(err);
     } else {

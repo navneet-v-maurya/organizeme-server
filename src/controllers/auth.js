@@ -142,6 +142,7 @@ export const login_user = async (data, cb) => {
     if (!pass_matched) throw new Error("Wrong password");
 
     const accessToken = generateAccessToken(found_user);
+
     const refreshToken = generateRefreshToken(found_user);
 
     const { password, ...rest } = found_user._doc;
