@@ -108,7 +108,7 @@ export const register_user = async (data, cb) => {
         .merge({
           status: 200,
           success: true,
-          data: { rest, refreshToken, accessToken },
+          data: { ...rest, refreshToken, accessToken },
           message: "ok",
         })
         .toJS()
@@ -153,7 +153,7 @@ export const login_user = async (data, cb) => {
         .merge({
           status: 200,
           success: true,
-          data: { rest, refreshToken, accessToken },
+          data: { ...rest, refreshToken, accessToken },
           message: "ok",
         })
         .toJS()
