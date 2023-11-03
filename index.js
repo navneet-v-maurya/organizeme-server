@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 dotenv.config();
 
 import connectMongoDB from "./src/database/mongo.js";
-import todo from "./src/routes/todo.js";
+import my_task from "./src/routes/my_task.js";
 import auth from "./src/routes/auth.js";
 
 const app = express();
@@ -15,7 +15,7 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: false, limit: "50mb" }));
 
-app.use("/todo", todo);
+app.use("/my_task", my_task);
 app.use("/auth", auth);
 
 connectMongoDB();

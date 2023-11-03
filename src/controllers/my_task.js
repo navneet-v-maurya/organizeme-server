@@ -1,28 +1,20 @@
-import todo from "../models/todo.js";
+import My_Task from "../models/my_task.js";
 import responseStructure from "../../utils/responseStructure.js";
 
-export const add_todo = async (data, cb) => {
+export const add_my_task = async (data, cb) => {
   try {
-    console.log(data);
-    if (
-      !data.todo ||
-      !data.start ||
-      !data.end ||
-      !data.created_for ||
-      data.created_for.length <= 0
-    )
+    if (!data.title || !data.start || !data.end)
       throw new Error("Params missing");
 
-    const newTodo = new todo({
+    const new_task = new My_Task({
       created_by: data.user._id,
-      todo: data.todo,
+      title: data.title,
       details: data.details || "",
       start: new Date(data.start),
       end: new Date(data.end),
-      created_for: data.created_for,
     });
 
-    const res = await newTodo.save();
+    const res = await new_task.save();
 
     return cb(
       null,
@@ -49,7 +41,7 @@ export const add_todo = async (data, cb) => {
   }
 };
 
-export const get_todo = async (data, cb) => {
+export const get_my_task = async (data, cb) => {
   try {
     const where_data = {
       created_by: data.user._id,
@@ -71,7 +63,7 @@ export const get_todo = async (data, cb) => {
       where_data.createdAt = latest_date?.createdAt;
     }
 
-    const res = await todo.find(where_data);
+    const res = await My_Task.find(where_data);
 
     return cb(
       null,
@@ -98,18 +90,18 @@ export const get_todo = async (data, cb) => {
   }
 };
 
-export const delete_todo = async (data, cb) => {
+export const delete_my_task = async (data, cb) => {
   try {
     if (!data.id) throw new Error("Params missing");
 
-    const found_todo = await todo.findById(data.id);
-    if (!found_todo) throw new Error("no todo found");
+    const found_task = await My_Task.findById(data.id);
+    if (!found_task) throw new Error("no task found");
 
-    if (found_todo.created_by !== data.user._id) {
-      throw new Error("You dont have permission to delete this todo");
+    if (found_task.created_by !== data.user._id) {
+      throw new Error("You dont have permission to delete this task");
     }
 
-    const res = await todo.findByIdAndDelete(data.id);
+    const res = await My_Task.findByIdAndDelete(data.id);
 
     return cb(
       null,
@@ -136,23 +128,20 @@ export const delete_todo = async (data, cb) => {
   }
 };
 
-export const update_todo = async (data, cb) => {
+export const update_my_task = async (data, cb) => {
   try {
     if (!data.id) throw new Error("Params missing");
 
-    const found_todo = await todo.findById(data.id);
-    if (!found_todo) throw new Error("no todo found");
+    const found_task = await My_Task.findById(data.id);
+    if (!found_task) throw new Error("no task found");
 
-    if (
-      found_todo.created_by !== data.user._id ||
-      !found_todo.created_for.includes(data.user._id)
-    ) {
-      throw new Error("You dont have permission to update this todo");
+    if (found_task.created_by !== data.user._id) {
+      throw new Error("You dont have permission to update this task");
     }
 
     const updated_data = {};
-    if (data.todo) {
-      updated_data.todo = data.todo;
+    if (data.title) {
+      updated_data.title = data.title;
     }
     if (data.details) {
       updated_data.details = data.details;

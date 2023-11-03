@@ -3,8 +3,7 @@ import mongoose from "mongoose";
 const schema = new mongoose.Schema(
   {
     created_by: { type: mongoose.Schema.Types.ObjectId, required: true },
-    created_for: [{ type: mongoose.Schema.Types.ObjectId }],
-    todo: { type: String, required: true },
+    title: { type: String, required: true },
     details: { type: String },
     status: {
       type: String,
@@ -17,6 +16,6 @@ const schema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Todo = mongoose.model("todo", schema);
+const My_Task = mongoose.model("my_task", schema);
 
-export default Todo;
+export default My_Task;

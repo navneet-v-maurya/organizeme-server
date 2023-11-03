@@ -74,7 +74,7 @@ export const register_user = async (data, cb) => {
 
     const [found_user, found_otp] = await Promise.all([
       User.findOne({ email: data.email }),
-      Otp.findOne({ email: data.email }),
+      Otp.findOne({ email: data.email }).sort({ createdAt: -1 }),
     ]);
 
     if (found_user) throw new Error("this email already exists");
