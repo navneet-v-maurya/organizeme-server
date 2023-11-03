@@ -1,18 +1,18 @@
 import express from "express";
 import authenticator from "../../utils/authenticator.js";
 import {
-  add_todo,
-  delete_todo,
-  get_todo,
-  update_todo,
-} from "../controllers/todo.js";
+  add_my_task,
+  delete_my_task,
+  get_my_task,
+  update_my_task,
+} from "../controllers/my_task.js";
 
 const route = express.Router();
 
-route.post("/add_todo", authenticator, (req, res) => {
+route.post("/add_my_task", authenticator, (req, res) => {
   const data = req.body;
   data.user = req.user;
-  add_todo(data, (err, result) => {
+  add_my_task(data, (err, result) => {
     if (err) {
       return res.status(err.status).send(err);
     } else {
@@ -21,9 +21,9 @@ route.post("/add_todo", authenticator, (req, res) => {
   });
 });
 
-route.get("/get_todo", authenticator, (req, res) => {
+route.get("/get_my_task", authenticator, (req, res) => {
   const data = req.query;
-  get_todo(data, (err, result) => {
+  get_my_task(data, (err, result) => {
     if (err) {
       return res.status(err.status).send(err);
     } else {
@@ -32,9 +32,9 @@ route.get("/get_todo", authenticator, (req, res) => {
   });
 });
 
-route.delete("/delete_todo", authenticator, (req, res) => {
+route.delete("/delete_my_task", authenticator, (req, res) => {
   const data = req.query;
-  delete_todo(data, (err, result) => {
+  delete_my_task(data, (err, result) => {
     if (err) {
       return res.status(err.status).send(err);
     } else {
@@ -43,9 +43,9 @@ route.delete("/delete_todo", authenticator, (req, res) => {
   });
 });
 
-route.patch("/update_todo", authenticator, (req, res) => {
+route.patch("/update_my_task", authenticator, (req, res) => {
   const data = req.body;
-  update_todo(data, (err, result) => {
+  update_my_task(data, (err, result) => {
     if (err) {
       return res.status(err.status).send(err);
     } else {
