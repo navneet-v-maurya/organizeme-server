@@ -23,6 +23,7 @@ route.post("/add_my_task", authenticator, (req, res) => {
 
 route.get("/get_my_task", authenticator, (req, res) => {
   const data = req.query;
+  data.user = req.user;
   get_my_task(data, (err, result) => {
     if (err) {
       return res.status(err.status).send(err);
@@ -34,6 +35,7 @@ route.get("/get_my_task", authenticator, (req, res) => {
 
 route.delete("/delete_my_task", authenticator, (req, res) => {
   const data = req.query;
+  data.user = req.user;
   delete_my_task(data, (err, result) => {
     if (err) {
       return res.status(err.status).send(err);
@@ -45,6 +47,7 @@ route.delete("/delete_my_task", authenticator, (req, res) => {
 
 route.patch("/update_my_task", authenticator, (req, res) => {
   const data = req.body;
+  data.user = req.user;
   update_my_task(data, (err, result) => {
     if (err) {
       return res.status(err.status).send(err);
