@@ -55,7 +55,7 @@ export const get_my_task = async (data, cb) => {
         $lte: new Date(data.end),
       };
     } else {
-      const latest_date = await todo.findOne(
+      const latest_date = await My_Task.findOne(
         { user_id: data.user_id },
         { createdAt: true },
         { sort: { createdAt: -1 } }
@@ -158,7 +158,7 @@ export const update_my_task = async (data, cb) => {
 
     updated_data.updated_at = new Date();
 
-    const res = await todo.findByIdAndUpdate(data.id, updated_data);
+    const res = await My_Task.findByIdAndUpdate(data.id, updated_data);
 
     return cb(
       null,
