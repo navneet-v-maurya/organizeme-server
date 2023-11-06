@@ -65,13 +65,29 @@ export const get_my_task = async (data, cb) => {
 
     const res = await My_Task.find(where_data);
 
+    const result = {
+      created: [],
+      progress: [],
+      completed: [],
+    };
+
+    res.forEach((el) => {
+      if (el.status === "created") {
+        result.created.push(el);
+      } else if (el.status === "in-progress") {
+        result.progress.push(el);
+      } else {
+        result.completed.push(el);
+      }
+    });
+
     return cb(
       null,
       responseStructure
         .merge({
           status: 200,
           success: true,
-          data: res,
+          data: result,
           message: "ok",
         })
         .toJS()
