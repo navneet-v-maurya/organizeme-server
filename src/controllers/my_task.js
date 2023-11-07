@@ -1,6 +1,7 @@
 import My_Task from "../models/my_task.js";
 import responseStructure from "../../utils/responseStructure.js";
 import moment from "moment";
+import { ObjectId } from "mongodb";
 
 export const add_my_task = async (data, cb) => {
   try {
@@ -124,7 +125,7 @@ export const delete_my_task = async (data, cb) => {
     const found_task = await My_Task.findById(data.id);
     if (!found_task) throw new Error("No task found");
 
-    if (found_task.created_by !== data.user._id) {
+    if (!found_task.created_by.equals(new ObjectId(data.user._id))) {
       throw new Error("You dont have permission to delete this task");
     }
 
@@ -162,7 +163,7 @@ export const update_my_task = async (data, cb) => {
     const found_task = await My_Task.findById(data.id);
     if (!found_task) throw new Error("no task found");
 
-    if (found_task.created_by !== data.user._id) {
+    if (!found_task.created_by.equals(new ObjectId(data.user._id))) {
       throw new Error("You dont have permission to update this task");
     }
 
