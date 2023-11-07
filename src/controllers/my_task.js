@@ -1,5 +1,6 @@
 import My_Task from "../models/my_task.js";
 import responseStructure from "../../utils/responseStructure.js";
+import moment from "moment";
 
 export const add_my_task = async (data, cb) => {
   try {
@@ -48,11 +49,14 @@ export const get_my_task = async (data, cb) => {
     };
 
     if (data.date) {
-      where_data.createdAt = new Date(data.date);
+      where_data.createdAt = {
+        $gte: new Date(data.date),
+        $lt: new Date(moment(data.date).add(1, "day").format("YYYY-MM-DD")),
+      };
     } else if (data.start && data.end) {
       where_data.createdAt = {
         $gte: new Date(data.start),
-        $lte: new Date(data.end),
+        $lt: new Date(moment(data.end).add(1, "day").format("YYYY-MM-DD")),
       };
     } else {
       const latest_date = await My_Task.findOne(
@@ -60,7 +64,14 @@ export const get_my_task = async (data, cb) => {
         { createdAt: true },
         { sort: { createdAt: -1 } }
       );
-      where_data.createdAt = latest_date?.createdAt;
+      where_data.createdAt = {
+        $gt: new Date(
+          moment(latest_date?.createdAt).subtract(1, "day").format("YYYY-MM-DD")
+        ),
+        $lt: new Date(
+          moment(latest_date?.createdAt).add(1, "day").format("YYYY-MM-DD")
+        ),
+      };
     }
 
     const res = await My_Task.find(where_data);
@@ -111,7 +122,7 @@ export const delete_my_task = async (data, cb) => {
     if (!data.id) throw new Error("Params missing");
 
     const found_task = await My_Task.findById(data.id);
-    if (!found_task) throw new Error("no task found");
+    if (!found_task) throw new Error("No task found");
 
     if (found_task.created_by !== data.user._id) {
       throw new Error("You dont have permission to delete this task");
