@@ -1,13 +1,9 @@
-import Task_Team from "../models/task_team";
+import Task_Team from "../models/task_team.js";
+import responseStructure from "../../utils/responseStructure.js";
 
 export const add_task_team = async (data, cb) => {
   try {
-    if (
-      !data.members ||
-      data.members.length <= 0 ||
-      !data.group_name ||
-      !data.created_by
-    )
+    if (!data.members || data.members.length <= 0 || !data.group_name)
       throw new Error("Params missing");
 
     const new_task_team = new Task_Team({

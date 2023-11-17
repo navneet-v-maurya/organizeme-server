@@ -1,6 +1,5 @@
-import Group_Task from "../models/group_task";
-import Task_Team from "../models/task_team";
-import responseStructure from "../../utils/responseStructure";
+import Group_Task from "../models/group_task.js";
+import responseStructure from "../../utils/responseStructure.js";
 
 export const add_group_task = async (data, cb) => {
   try {

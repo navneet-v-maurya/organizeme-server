@@ -18,6 +18,6 @@ const grpup_task_schema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Group_Task = mongoose.Model("group_task", grpup_task_schema);
+const Group_Task = mongoose.model("group_task", grpup_task_schema);
 
 export default Group_Task;
