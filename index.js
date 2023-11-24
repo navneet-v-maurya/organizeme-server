@@ -10,6 +10,7 @@ import my_task from "./src/routes/my_task.js";
 import auth from "./src/routes/auth.js";
 import task_team from "./src/routes/task_team.js";
 import group_task from "./src/routes/group_task.js";
+import graph_data from "./src/routes/graph_data.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/my_task", my_task);
 app.use("/auth", auth);
 app.use("/group_task", group_task);
 app.use("/task_team", task_team);
+app.use("/graph_data", graph_data);
 
 connectMongoDB();
 app.listen(process.env.PORT, () => {
